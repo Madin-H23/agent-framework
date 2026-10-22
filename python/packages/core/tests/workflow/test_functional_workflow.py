@@ -152,7 +152,8 @@ async def cancelled_awaiter_step(ctx: RunContext) -> int:
             # the gather and the gather's exception is never retrieved.
             gather.add_done_callback(lambda _: task.cancel())
         try:
-            return await gather
+            (value, _) = await gather
+            return value
         except asyncio.CancelledError:
             return -1
 
